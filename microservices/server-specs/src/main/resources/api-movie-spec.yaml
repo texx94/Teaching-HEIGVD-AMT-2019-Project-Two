@@ -1,0 +1,149 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: 'Movie API'
+  description: 'This API is used to manage all movies from our project and all the links with the user'
+host: localhost:8080
+basePath: /api/v1
+schemes:
+  - http
+
+tags:
+- name: movies
+  description: Retrieve all movies and create, update or delete a movie
+- name: moviesWatched
+  description: Retrieve the list of seen movies and add or delete a seen movie
+
+paths:
+  /movies:
+    get:
+      description: get all movies
+      operationId: getMovies
+      tags:
+        - movies
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Movie'
+    post:
+      description: create an movie
+      operationId: createMovie
+      tags:
+        - movies
+      consumes:
+        - application/json
+      parameters:
+        - name: movie
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Movie'
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+
+  /movies/{movieID}:
+    patch:
+      description: Update information about the specified movie
+      operationId: updateMovie
+      tags:
+        - movies
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: movieID
+          type: integer
+          required: true
+          description: ID of the movie
+        - name: movie
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Movie'
+      responses:
+        '200':
+          description: Success
+        '404':
+          description: Resource not found
+
+  /moviesWatched:
+    get:
+      description: get all movies seen by the user
+      operationId: getSeenMovies
+      tags:
+        - moviesWatched
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/MovieWatched'
+    post:
+      description: add a movie to the seen list
+      operationId: addMovie
+      tags:
+        - moviesWatched
+      consumes:
+        - application/json
+      parameters:
+        - name: movie
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/MovieWatched'
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+
+  /moviesWatched/{movieID}:
+    delete:
+      description: Remove the seen movie
+      operationId: deleteSeenMovie
+      tags:
+        - moviesWatched
+      parameters:
+        - in: path
+          name: movieID
+          type: integer
+          required: true
+          description: ID of the movie
+      responses:
+        '204':
+          description: Success
+        '404':
+          description: Resource not found
+
+definitions:
+  Movie:
+    type: object
+    properties:
+      title: 
+        type: string
+      year: 
+        type: integer
+    required:
+      - title
+      - year
+  MovieWatched:
+    type: object
+    properties:
+      userID:
+        type: integer
+      movieID:
+        type: integer
+    required:
+      - userID
+      - movieID
