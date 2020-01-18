@@ -33,11 +33,7 @@ public class SwaggerDocumentationConfig {
                 .build()
                 .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
-                .apiInfo(apiInfo())
-                .tags(new Tag("users", "Get the list of users"),
-                        new Tag("movies", "Get the list of movies and create, update or delete a new movie"),
-                        new Tag("moviesLog", "Get the list of watched movies and create, update or delete a new movie" +
-                                " log"));
+                .apiInfo(apiInfo());
     }
 
 }

@@ -3,6 +3,7 @@ package ch.heigvd.amt.movie.api.endpoints;
 import ch.heigvd.amt.movie.api.model.Movie;
 import ch.heigvd.amt.movie.entities.MovieEntity;
 import ch.heigvd.amt.movie.repositories.MovieRepository;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.Optional;
  * @since 11.12.2019
  */
 @Controller
+@Api(tags = "movies")
 public class MoviesApiController implements  MoviesApi {
     @Autowired
     MovieRepository movieRepository;

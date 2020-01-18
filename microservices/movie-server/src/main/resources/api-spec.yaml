@@ -10,9 +10,11 @@ schemes:
 
 tags:
   - name: movies
-    description: Retrieve all movies and create, update or delete a movie
+    description: Get the list of movies and create, update or delete a new movie
   - name: moviesWatched
-    description: Retrieve the list of seen movies and add or delete a seen movie
+    description: Get the list of watched movies and create, update or delete a new movie
+  - name: users
+    description: Get the list of users and create, update or delete a new user
 
 paths:
   /movies:
@@ -48,6 +50,8 @@ paths:
           description: Created
           schema:
             type: object
+        '401':
+          description: Not authorized
 
   /movies/{movieID}:
     get:
@@ -168,6 +172,118 @@ paths:
         '404':
           description: Resource not found
 
+  /users:
+    get:
+      description: get all users
+      operationId: getUsers
+      tags:
+        - users
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Success
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        '401':
+          description: Not authorized
+    post:
+      description: create an user
+      operationId: createUser
+      tags:
+        - users
+      consumes:
+        - application/json
+      parameters:
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorized
+
+  /users/{userID}:
+    get:
+      description: get a specified user
+      operationId: getUser
+      tags:
+        - users
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: userID
+          type: integer
+          required: true
+          description: ID of the user
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Movie'
+        '401':
+          description: Not authorized
+        '404':
+          description: Resource not found
+    patch:
+      description: Update information about the specified user
+      operationId: updateUser
+      tags:
+        - users
+      consumes:
+        - application/json
+      parameters:
+        - in: path
+          name: userID
+          type: integer
+          required: true
+          description: ID of the user
+        - name: user
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorized
+        '404':
+          description: Resource not found
+    delete:
+      description: Remove the specified user
+      operationId: deleteUser
+      tags:
+        - users
+      parameters:
+        - in: path
+          name: userID
+          type: integer
+          required: true
+          description: ID of the user
+      responses:
+        '200':
+          description: Success
+        '204':
+          description: Success
+        '401':
+          description: Not authorized
+        '404':
+          description: Resource not found
+
+
 definitions:
   Movie:
     type: object
@@ -189,3 +305,13 @@ definitions:
     required:
       - userID
       - movieID
+  User:
+    type: object
+    properties:
+      lastname:
+        type: string
+      firstname:
+        type: string
+    required:
+      - lastname
+      - firstname
