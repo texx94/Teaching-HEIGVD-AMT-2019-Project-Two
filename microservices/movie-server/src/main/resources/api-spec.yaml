@@ -95,6 +95,26 @@ paths:
           description: Success
         '404':
           description: Resource not found
+    delete:
+      description: Remove the specified movie
+      operationId: deleteMovie
+      tags:
+        - movies
+      parameters:
+        - in: path
+          name: movieID
+          type: integer
+          required: true
+          description: ID of the movie
+      responses:
+        '200':
+          description: Success
+        '204':
+          description: Success
+        '401':
+          description: Not authorized
+        '404':
+          description: Resource not found
 
   /moviesWatched:
     get:
