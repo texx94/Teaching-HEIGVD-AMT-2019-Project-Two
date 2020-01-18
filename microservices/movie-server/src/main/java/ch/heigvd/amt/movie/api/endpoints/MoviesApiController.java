@@ -57,6 +57,26 @@ public class MoviesApiController implements  MoviesApi {
         return ResponseEntity.created(location).build();
     }
 
+    public ResponseEntity<Void> deleteMovie(Integer id) {
+        if (movieRepository.findById(Long.valueOf(id)).isPresent()) {
+            movieRepository.deleteById(Long.valueOf(id));
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<Void> updateMovie(Integer id, @Valid @RequestBody Movie movie) {
+        MovieEntity movieEntity = toMovieEntity(movie);
+        if (movieRepository.findById(Long.valueOf(id)).isPresent()) {
+            movieEntity.setId(id);
+            movieRepository.save(movieEntity);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     private MovieEntity toMovieEntity(Movie movie) {
         MovieEntity entity = new MovieEntity();
         entity.setTitle(movie.getTitle());
