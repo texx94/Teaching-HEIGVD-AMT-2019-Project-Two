@@ -1,0 +1,12 @@
+version: "3"
+services:
+  db:
+    container_name: amt-db
+    image: mysql:5.7.28
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: movie
+      MYSQL_ROOT_PASSWORD: adminpw
+    ports:
+      - "3306:3306"
