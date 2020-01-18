@@ -9,10 +9,10 @@ schemes:
   - http
 
 tags:
-- name: movies
-  description: Retrieve all movies and create, update or delete a movie
-- name: moviesWatched
-  description: Retrieve the list of seen movies and add or delete a seen movie
+  - name: movies
+    description: Retrieve all movies and create, update or delete a movie
+  - name: moviesWatched
+    description: Retrieve the list of seen movies and add or delete a seen movie
 
 paths:
   /movies:
@@ -50,6 +50,28 @@ paths:
             type: object
 
   /movies/{movieID}:
+    get:
+      description: get a specified movie
+      operationId: getMovie
+      tags:
+        - movies
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: movieID
+          type: integer
+          required: true
+          description: ID of the movie
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/Movie'
+        '401':
+          description: Not authorized
+        '404':
+          description: Resource not found
     patch:
       description: Update information about the specified movie
       operationId: updateMovie
@@ -130,9 +152,9 @@ definitions:
   Movie:
     type: object
     properties:
-      title: 
+      title:
         type: string
-      year: 
+      year:
         type: integer
     required:
       - title
