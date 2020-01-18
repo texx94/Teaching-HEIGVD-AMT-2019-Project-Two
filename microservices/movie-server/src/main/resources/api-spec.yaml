@@ -230,7 +230,7 @@ paths:
         '200':
           description: Success
           schema:
-            $ref: '#/definitions/Movie'
+            $ref: '#/definitions/User'
         '401':
           description: Not authorized
         '404':

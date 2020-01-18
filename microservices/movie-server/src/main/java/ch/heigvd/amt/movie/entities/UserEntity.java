@@ -10,8 +10,8 @@ import javax.persistence.*;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Getter
+    @Setter
     private long id;
 
     @Getter
