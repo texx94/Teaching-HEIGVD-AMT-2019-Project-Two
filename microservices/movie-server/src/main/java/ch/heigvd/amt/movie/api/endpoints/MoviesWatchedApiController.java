@@ -1,8 +1,8 @@
 package ch.heigvd.amt.movie.api.endpoints;
 
 import ch.heigvd.amt.movie.api.model.MovieWatched;
-import ch.heigvd.amt.movie.entities.MovieLogEntity;
-import ch.heigvd.amt.movie.repositories.MovieLogRepository;
+import ch.heigvd.amt.movie.entities.MovieWatchedEntity;
+import ch.heigvd.amt.movie.repositories.MovieWatchedRepository;
 import ch.heigvd.amt.movie.repositories.MovieRepository;
 import ch.heigvd.amt.movie.repositories.UserRepository;
 import io.swagger.annotations.Api;
@@ -15,23 +15,23 @@ import java.util.List;
 
 @Controller
 @Api(tags = "moviesWatched")
-public class MoviesLogApiController implements MoviesWatchedApi {
+public class MoviesWatchedApiController implements MoviesWatchedApi {
     @Autowired
-    MovieLogRepository movieLogRepository;
+    MovieWatchedRepository movieWatchedRepository;
     @Autowired
     UserRepository userRepository;
     @Autowired
     MovieRepository movieRepository;
 
     public ResponseEntity<List<MovieWatched>> getWatchedMovies() {
-        List<MovieWatched> moviesLog = new ArrayList<>();
-        for(MovieLogEntity movieLogEntity : movieLogRepository.findAll()) {
-            moviesLog.add(toMovieWatched(movieLogEntity));
+        List<MovieWatched> moviesWatched = new ArrayList<>();
+        for(MovieWatchedEntity movieWatchedEntity : movieWatchedRepository.findAll()) {
+            moviesWatched.add(toMovieWatched(movieWatchedEntity));
         }
-        return ResponseEntity.ok(moviesLog);
+        return ResponseEntity.ok(moviesWatched);
     }
 
-    private MovieWatched toMovieWatched(MovieLogEntity entity) {
+    private MovieWatched toMovieWatched(MovieWatchedEntity entity) {
         MovieWatched movieWatched = new MovieWatched();
         movieWatched.setMovieID((int) entity.getMovie().getId());
         movieWatched.setUserID((int) entity.getUser().getId());

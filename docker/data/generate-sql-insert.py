@@ -32,7 +32,7 @@ with open('users.csv') as csv_file:
 
         # Generate some movies that he has seen
         for movieId in generateMovieIds():
-            movie_data_file.write(f'INSERT INTO movie_log (fk_user, fk_movie) VALUES ({userCounter}, {movieId});\n')
+            movie_data_file.write(f'INSERT INTO movie_watched (fk_user, fk_movie) VALUES ({userCounter}, {movieId});\n')
         userCounter += 1
 
 

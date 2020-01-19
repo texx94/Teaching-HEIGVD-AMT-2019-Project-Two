@@ -6,8 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "movie_log")
-public class MovieLogEntity {
+@Table(name = "movie_watched")
+public class MovieWatchedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
