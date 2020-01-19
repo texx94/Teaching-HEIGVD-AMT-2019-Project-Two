@@ -30,3 +30,11 @@ User - WatchedMovie - Movie. These make it possible to keep a history of the mov
 ![entities.png](img/entities.png)
 
 `user` and `movie` have CRUD operations. `movie_watched` has `create`, `read` and `delete` operations.
+
+Due to lack of time, we have only protected the endpoints of the `movie_watched` entity. The owner represents the
+user id (user from the other API --> auth-server). So to perform any action on that entity we check that the owner
+corresponds to the user id stored in the JWT token. This token can be retrieved trough the `/session` endpoint of
+the user API.
+
+In our generated data in the movie_watched table, the owner is always `admin@admin.ch`. So you have to get his token
+in `/session` endpoint to be able to `GET` and `/DELETE/` watched movies. 
