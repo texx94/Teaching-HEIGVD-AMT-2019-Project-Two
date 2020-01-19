@@ -43,6 +43,9 @@ public class SwaggerDocumentationConfig {
                 .directModelSubstitute(org.joda.time.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.joda.time.DateTime.class, java.util.Date.class)
                 .apiInfo(apiInfo())
+                .tags(new Tag("users", "Create a new user, get or update users informations"),
+                        new Tag("session", "Get a JWT token"),
+                        new Tag("admin", "Only for users with admin"))
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("ch.heigvd.amt.auth.api"))
                 .build();
