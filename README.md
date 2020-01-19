@@ -36,7 +36,7 @@ All documentation files can be found in the [doc folder](doc/). You have access 
 files directly from the following links:
 
 * [1 - Guidelines](doc/1_guidelines.md)
-* [2 - implementation](doc/2_implementation.md)
+* [2 - Implementation](doc/2_implementation.md)
 
 ## Authors
 
