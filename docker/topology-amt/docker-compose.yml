@@ -1,5 +1,6 @@
 version: "3"
 services:
+  # Database
   db:
     container_name: amt-db
     image: mysql:5.7.28
@@ -10,3 +11,33 @@ services:
       MYSQL_ROOT_PASSWORD: adminpw
     ports:
       - "3306:3306"
+    labels:
+      - "traefik.enable=false"
+
+  # Reverse proxy
+  rp:
+    container_name: amt-rp
+    image: traefik:v2.0.6
+    restart: on-failure
+    ports:
+      - 80:80
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik.toml:/etc/traefik/traefik.toml
+
+  # Auth API for movie app
+  auth-server:
+    build: ../images/auth-server/
+    container_name: amt-auth-server
+    restart: on-failure
+    environment:
+      spring_profiles_active: docker
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.entrypoints=web"
+      - "traefik.http.routers.auth.rule=Host(`localhost`) && PathPrefix(`/auth`)"
+      - "traefik.http.services.auth.loadbalancer.server.port=8080"
+

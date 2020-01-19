@@ -4,7 +4,7 @@
   <groupId>ch.heigvd.amt</groupId>
   <artifactId>auth-server</artifactId>
   <packaging>jar</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>auth-server</name>
 
   <properties>
