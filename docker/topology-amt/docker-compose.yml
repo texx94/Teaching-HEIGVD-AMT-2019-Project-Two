@@ -29,6 +29,7 @@ services:
   # Auth API for movie app
   auth-server:
     build: ../images/auth-server/
+    image: i_amt-auth-server
     container_name: amt-auth-server
     restart: on-failure
     environment:
@@ -41,3 +42,18 @@ services:
       - "traefik.http.routers.auth.rule=Host(`localhost`) && PathPrefix(`/auth`)"
       - "traefik.http.services.auth.loadbalancer.server.port=8080"
 
+  # Main API for movie app
+  movie-server:
+    build: ../images/movie-server/
+    image: i_amt-movie-server
+    container_name: amt-movie-server
+    restart: on-failure
+    environment:
+      spring_profiles_active: docker
+    depends_on:
+      - db
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.main.entrypoints=web"
+      - "traefik.http.routers.main.rule=Host(`localhost`) && PathPrefix(`/api`)"
+      - "traefik.http.services.main.loadbalancer.server.port=8080"
