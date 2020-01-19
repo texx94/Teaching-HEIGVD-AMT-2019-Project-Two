@@ -123,7 +123,7 @@ paths:
   /moviesWatched:
     get:
       description: get all movies seen by the user
-      operationId: getSeenMovies
+      operationId: getWatchedMovies
       tags:
         - moviesWatched
       produces:
@@ -137,7 +137,7 @@ paths:
               $ref: '#/definitions/MovieWatched'
     post:
       description: add a movie to the seen list
-      operationId: addMovie
+      operationId: createWatchedMovie
       tags:
         - moviesWatched
       consumes:
@@ -157,7 +157,7 @@ paths:
   /moviesWatched/{movieID}:
     delete:
       description: Remove the seen movie
-      operationId: deleteSeenMovie
+      operationId: deleteWatchedMovie
       tags:
         - moviesWatched
       parameters:
