@@ -3,141 +3,188 @@ info:
   version: '1.0.0'
   title: 'User Manager'
   description: 'This API is used to manage all user from our project'
-host: localhost:8080
-basePath: /api/v1
+host: localhost
+basePath: /auth
 schemes:
   - http
-paths:
-  /user:
-    get:
-      description: get all users
-      operationId: getUsers
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: success
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/User'
-    post:
-      description: create an user
-      operationId: createUser
-      consumes:
-        - application/json
-      parameters:
-        - name: user
-          in: body
-          required: true
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        '201':
-          description: Created
-          schema:
-            type: object
-            
-  /user/{id}:
-    get:
-      description: get one user by ID
-      operationId: getUser
-      produces:
-        - application/json
-      parameters:
-        - in: path
-          name: id
-          required: true
-          type: integer
-          description: The user ID
-      responses:
-        '200':
-          description: success
-          schema:
-            $ref: '#/definitions/User'
-        '404':
-          description: user not found
-          
-    patch:
-      description: change password for one user
-      operationId: changePassword
-      consumes:
-        - application/json
-      parameters:
-        - in: path
-          name: id
-          required: true
-          type: integer
-          description: The user ID
-        - in: body
-          name: patchUser
-          description: Used to change the password and the access data of the account (admin, validated, blocked)
-          schema:
-            type: object
-            required:
-              - email
-            properties:
-              email:
-                type: string
-              newPass:
-                type: string
-              isBlocked:
-                type: boolean
-              isValidated:
-                type: boolean
-      responses:
-        '201':
-          description: Modified
 
-  /login:
+tags:
+  - name: users
+    description: Create a new user, get or update users informations
+  - name: admin
+    description: Only for users with admin
+  - name: session
+    description: Get the JWT token
+
+paths:
+  /registration:
     post:
-      description: login - get JWT token
-      operationId: login
+      description: Create a new user
+      operationId: createUser
+      tags:
+        - admin
       consumes:
         - application/json
+      security:
+        - Bearer: []
       parameters:
-        - name: login
-          in: body
+        - in: body
+          name: user
+          description: The new user to registrate
           required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: Success
+          headers:
+            Location:
+              description: Created user URL
+              type: string
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorized
+
+  /users/{userID}:
+    get:
+      description: Get a specified user
+      operationId: getUser
+      tags:
+        - users
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: userID
+          type: integer
+          description: ID of the user to get
+          required: true
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/User'
+        '401':
+          description: Not authorized
+        '404':
+          description: Resource not found
+    put:
+      description: Update information about the specified user
+      operationId: updateUser
+      tags:
+        - users
+      consumes:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: userID
+          type: integer
+          description: ID of the user to update
+          required: true
+        - in: body
+          name: user
+          description: The updated user
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad request
+        '401':
+          description: Not authorized
+        '404':
+          description: Resource not found
+    delete:
+      description: Delete the specified user
+      operationId: deleteUser
+      tags:
+        - users
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: userID
+          type: integer
+          description: ID of the user to delete
+          required: true
+      responses:
+        '200':
+          description: Success
+        '204':
+          description: Success
+        '401':
+          description: Not authorized
+        '404':
+          description: Resource not found
+
+  /session:
+    post:
+      description: Get the JWT token of the user
+      operationId: getJWTToken
+      tags:
+        - session
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: credentials
+          description: The user credentials
+          required: true
+          schema:
+            $ref: '#/definitions/Credentials'
+      responses:
+        '200':
+          description: Success
           schema:
             $ref: '#/definitions/JWTToken'
-      responses:
-        '200':
-          description: success
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/JWTToken'
+        '401':
+          description: Not authorized
+        '404':
+          description: Resource not found
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
 definitions:
   User:
     type: object
     properties:
       email:
         type: string
-      first_name:
+        format: email
+      firstname:
         type: string
-      last_name:
+      lastname:
         type: string
       password:
         type: string
-      isBlocked:
-        type: boolean
-      isValidated:
-        type: boolean
-      isAdmin:
-        type: boolean
+        format: password
     required:
       - email
-      - first_name
-      - last_name
+      - firstname
+      - lastname
       - password
-      - isBlocked
-      - isValidated
-      - isAdmin
-  JWTToken:
+  Credentials:
     type: object
     properties:
-      token:
+      email:
         type: string
+        format: email
+      password:
+        type: string
+        format: password
     required:
-      - token
+      - email
+      - password
+  JWTToken:
+    type: string
