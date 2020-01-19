@@ -21,7 +21,7 @@ docker-compose up
 * User API : [http://localhost/auth](http://localhost/auth)
 * Movie API : [http://localhost/api](http://localhoast/api)
 
-To validate the API implementation just execute the followings commands. Do this when the two servers are running.
+To validate the API implementation just execute the following commands. Do this when the two servers are running.
 
 ```bash
 cd microservices/server-specs
