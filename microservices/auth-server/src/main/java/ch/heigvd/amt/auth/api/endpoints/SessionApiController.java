@@ -38,17 +38,4 @@ public class SessionApiController implements SessionApi {
         String jwtToken = AuthUtils.createJWTString(user.getId(), user.isAdmin());
         return ResponseEntity.ok(jwtToken);
     }
-
-    public ResponseEntity<String> getToken(@ApiParam(value = "", required = true) @Valid @RequestBody Credentials credentials) {
-        UserEntity user = userRepository.findByEmail(credentials.getEmail());
-
-        // Check user password
-        if (!AuthUtils.checkPassword(credentials.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"Details\": \"Wrong password\"}");
-        }
-
-        // Create the JWT token and send it back as JSON
-        String jwt = AuthUtils.createJWTString(user.getId(), user.isAdmin());
-        return ResponseEntity.ok("{\"token\": \"" + jwt + "\"}");
-    }
 }

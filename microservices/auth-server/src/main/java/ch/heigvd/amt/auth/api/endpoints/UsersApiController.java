@@ -33,8 +33,10 @@ public class UsersApiController implements UsersApi {
     public ResponseEntity<User> getUser(Integer id) {
         Optional<UserEntity> userEntity = userRepository.findById(Long.valueOf(id));
 
-        if (req.getAttribute("userID") != Long.valueOf(id)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (!((boolean) req.getAttribute("isAdmin"))) {
+            if (req.getAttribute("userID") != Long.valueOf(id)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
         }
 
         if (userEntity.isPresent()) {
@@ -48,8 +50,10 @@ public class UsersApiController implements UsersApi {
     public ResponseEntity<Void> updateUser(Integer id, @Valid User user) {
         UserEntity userEntity = toUserEntity(user);
 
-        if (req.getAttribute("userID") != Long.valueOf(id)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (!((boolean) req.getAttribute("isAdmin"))) {
+            if (req.getAttribute("userID") != Long.valueOf(id)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
         }
 
         if (userRepository.findById(Long.valueOf(id)).isPresent()) {
@@ -62,8 +66,10 @@ public class UsersApiController implements UsersApi {
     }
 
     public ResponseEntity<Void> deleteUser(Integer id) {
-        if (req.getAttribute("userID") != Long.valueOf(id)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        if (!((boolean) req.getAttribute("isAdmin"))) {
+            if (req.getAttribute("userID") != Long.valueOf(id)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
         }
 
         if (userRepository.findById(Long.valueOf(id)).isPresent()) {
