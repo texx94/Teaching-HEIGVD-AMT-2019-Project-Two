@@ -126,5 +126,6 @@
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.jsonwebtoken:jjwt-impl:0.10.7" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: io.jsonwebtoken:jjwt-jackson:0.10.7" level="project" />
     <orderEntry type="library" name="Maven: javax.persistence:javax.persistence-api:2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.mindrot:jbcrypt:0.4" level="project" />
   </component>
 </module>

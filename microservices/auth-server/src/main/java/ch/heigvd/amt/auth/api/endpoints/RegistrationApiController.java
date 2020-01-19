@@ -1,6 +1,7 @@
 package ch.heigvd.amt.auth.api.endpoints;
 
 import ch.heigvd.amt.auth.api.model.User;
+import ch.heigvd.amt.auth.api.util.AuthUtils;
 import ch.heigvd.amt.auth.entites.UserEntity;
 import ch.heigvd.amt.auth.repositories.UserRepository;
 import io.swagger.annotations.Api;
@@ -42,7 +43,7 @@ public class RegistrationApiController implements RegistrationApi {
         entity.setEmail(user.getEmail());
         entity.setLastname(user.getLastname());
         entity.setFirstname(user.getFirstname());
-        entity.setPassword(user.getPassword());
+        entity.setPassword(AuthUtils.hashPassword(user.getPassword()));
         return entity;
     }
 }

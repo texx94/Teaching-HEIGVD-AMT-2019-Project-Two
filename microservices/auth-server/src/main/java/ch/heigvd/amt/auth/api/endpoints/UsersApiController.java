@@ -1,13 +1,16 @@
 package ch.heigvd.amt.auth.api.endpoints;
 
 import ch.heigvd.amt.auth.api.model.User;
+import ch.heigvd.amt.auth.api.util.AuthUtils;
 import ch.heigvd.amt.auth.entites.UserEntity;
 import ch.heigvd.amt.auth.repositories.UserRepository;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -24,8 +27,15 @@ public class UsersApiController implements UsersApi {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private HttpServletRequest req;
+
     public ResponseEntity<User> getUser(Integer id) {
         Optional<UserEntity> userEntity = userRepository.findById(Long.valueOf(id));
+
+        if (req.getAttribute("userID") != Long.valueOf(id)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         if (userEntity.isPresent()) {
             User user = toUser(userEntity.get());
@@ -38,6 +48,10 @@ public class UsersApiController implements UsersApi {
     public ResponseEntity<Void> updateUser(Integer id, @Valid User user) {
         UserEntity userEntity = toUserEntity(user);
 
+        if (req.getAttribute("userID") != Long.valueOf(id)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         if (userRepository.findById(Long.valueOf(id)).isPresent()) {
             userEntity.setId(id);
             userRepository.save(userEntity);
@@ -48,6 +62,10 @@ public class UsersApiController implements UsersApi {
     }
 
     public ResponseEntity<Void> deleteUser(Integer id) {
+        if (req.getAttribute("userID") != Long.valueOf(id)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
         if (userRepository.findById(Long.valueOf(id)).isPresent()) {
             userRepository.deleteById(Long.valueOf(id));
             return ResponseEntity.status(204).build();
@@ -61,7 +79,7 @@ public class UsersApiController implements UsersApi {
         entity.setEmail(user.getEmail());
         entity.setLastname(user.getLastname());
         entity.setFirstname(user.getFirstname());
-        entity.setPassword(user.getPassword());
+        entity.setPassword(AuthUtils.hashPassword(user.getPassword()));
         return entity;
     }
 

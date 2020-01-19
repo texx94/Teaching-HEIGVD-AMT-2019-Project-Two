@@ -2,6 +2,7 @@ package ch.heigvd.amt.auth.api.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.security.Key;
 
@@ -23,8 +24,19 @@ public class AuthUtils {
                     .setSigningKey(key)
                     .parseClaimsJws(jwt);
         } catch (JwtException e) {
-            // If exception was thrown, this JWT cannot be trusted
             return null;
+        }
+    }
+
+    public static String hashPassword(String plainTextPassword) {
+        return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
+    }
+
+    public static boolean checkPassword(String plainTextPassword, String hashedPassword) {
+        try {
+            return BCrypt.checkpw(plainTextPassword, hashedPassword);
+        } catch (Exception e) {
+            return false;
         }
     }
 }
