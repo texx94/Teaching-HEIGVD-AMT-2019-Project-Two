@@ -4,24 +4,28 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.mindrot.jbcrypt.BCrypt;
 
-import java.security.Key;
+import java.util.Base64;
 
 public class AuthUtils {
-    private static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static String KEY = "JDczMzcpZCk1OC0zeHJeIyNrZzQmKiEwbyRndihsYjZ0MGJoKEBAI2coNzgqMSh1KT0=";
 
     public static String createJWTString(Long userID, boolean role) {
+        byte[] keyBytes = Base64.getDecoder().decode(KEY);
+
         // Generate signed JWT containing the user's id and role
         return Jwts.builder()
                 .claim("userID", userID)
                 .claim("role", role)
-                .signWith(key)
+                .signWith(Keys.hmacShaKeyFor(keyBytes))
                 .compact();
     }
 
     public static Jws<Claims> decodeJWTString(String jwt) {
+        byte[] keyBytes = Base64.getDecoder().decode(KEY);
+
         try {
             return Jwts.parser()
-                    .setSigningKey(key)
+                    .setSigningKey(Keys.hmacShaKeyFor(keyBytes))
                     .parseClaimsJws(jwt);
         } catch (JwtException e) {
             return null;

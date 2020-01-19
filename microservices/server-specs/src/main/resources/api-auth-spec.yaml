@@ -3,7 +3,7 @@ info:
   version: '1.0.0'
   title: 'User Manager'
   description: 'This API is used to manage all user from our project'
-host: localhost:8080
+host: localhost:8090
 basePath: /auth
 schemes:
   - http

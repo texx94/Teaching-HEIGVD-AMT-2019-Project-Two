@@ -126,6 +126,8 @@ paths:
       operationId: getWatchedMovies
       tags:
         - moviesWatched
+      security:
+        - Bearer: []
       produces:
         - application/json
       responses:
@@ -140,6 +142,8 @@ paths:
       operationId: createWatchedMovie
       tags:
         - moviesWatched
+      security:
+        - Bearer: []
       consumes:
         - application/json
       parameters:
@@ -160,6 +164,8 @@ paths:
       operationId: deleteWatchedMovie
       tags:
         - moviesWatched
+      security:
+        - Bearer: []
       parameters:
         - in: path
           name: movieID
@@ -283,6 +289,11 @@ paths:
         '404':
           description: Resource not found
 
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
 
 definitions:
   Movie:
@@ -302,9 +313,13 @@ definitions:
         type: integer
       movieID:
         type: integer
+      owner:
+        type: integer
+        format: int64
     required:
       - userID
       - movieID
+      - owner
   User:
     type: object
     properties:

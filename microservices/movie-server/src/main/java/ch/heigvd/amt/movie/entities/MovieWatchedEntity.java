@@ -24,4 +24,8 @@ public class MovieWatchedEntity {
     @Getter
     @Setter
     private MovieEntity movie;
+
+    @Getter
+    @Setter
+    private long owner;
 }

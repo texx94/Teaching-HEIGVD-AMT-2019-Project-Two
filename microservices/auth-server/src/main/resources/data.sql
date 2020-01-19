@@ -1,3 +1,4 @@
+TRUNCATE TABLE user;
 INSERT INTO user (lastname, firstname, email, password) VALUES ("Gwenny", "Albon", "galbon0@weibo.com", "$2a$10$db71I3CbNntNS0JqaGNI9OMRawCfuQJJf6oTDBLlYuMiWhdZ6Fxpy");
 INSERT INTO user (lastname, firstname, email, password) VALUES ("Candida", "Kirgan", "ckirgan1@apple.com", "$2a$10$db71I3CbNntNS0JqaGNI9OMRawCfuQJJf6oTDBLlYuMiWhdZ6Fxpy");
 INSERT INTO user (lastname, firstname, email, password) VALUES ("Brett", "Fuggles", "bfuggles2@cbc.ca", "$2a$10$db71I3CbNntNS0JqaGNI9OMRawCfuQJJf6oTDBLlYuMiWhdZ6Fxpy");
