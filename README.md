@@ -2,7 +2,7 @@
 
 ## Description
 
-In this repos you will find a Spring server that exposes two RESTful APIs. The first APIs is used to manage users
+In this repo you will find a Spring server that exposes two RESTful APIs. The first APIs is used to manage users
 accounts (auth-server). The second API exposes 3 entites (User - WatchedMovie - Movie) and is used to keep a history
 of the viewed movies (movie-server).
 
