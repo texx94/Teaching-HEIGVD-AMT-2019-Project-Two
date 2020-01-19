@@ -43,6 +43,7 @@ public class RegistrationApiController implements RegistrationApi {
         entity.setEmail(user.getEmail());
         entity.setLastname(user.getLastname());
         entity.setFirstname(user.getFirstname());
+        entity.setAdmin(user.getIsAdmin());
         entity.setPassword(AuthUtils.hashPassword(user.getPassword()));
         return entity;
     }

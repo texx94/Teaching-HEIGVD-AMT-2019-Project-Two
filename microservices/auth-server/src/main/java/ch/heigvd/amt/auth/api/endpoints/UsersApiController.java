@@ -79,6 +79,7 @@ public class UsersApiController implements UsersApi {
         entity.setEmail(user.getEmail());
         entity.setLastname(user.getLastname());
         entity.setFirstname(user.getFirstname());
+        entity.setAdmin(user.getIsAdmin());
         entity.setPassword(AuthUtils.hashPassword(user.getPassword()));
         return entity;
     }
@@ -88,6 +89,7 @@ public class UsersApiController implements UsersApi {
         user.setEmail(entity.getEmail());
         user.setLastname(entity.getLastname());
         user.setFirstname(entity.getFirstname());
+        user.setIsAdmin(entity.isAdmin());
         user.setPassword(entity.getPassword());
         return user;
     }

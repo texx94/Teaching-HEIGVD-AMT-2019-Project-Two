@@ -169,11 +169,14 @@ definitions:
       password:
         type: string
         format: password
+      isAdmin:
+        type: boolean
     required:
       - email
       - firstname
       - lastname
       - password
+      - isAdmin
   Credentials:
     type: object
     properties:
