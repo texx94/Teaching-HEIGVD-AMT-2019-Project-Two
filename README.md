@@ -18,8 +18,8 @@ cd docker/topology-amt
 docker-compose up
 ```
 
-* User API : [http://localhost/auth](http://localhost/auth)
-* Movie API : [http://localhost/api](http://localhoast/api)
+* User API : <a href="http://localhost/auth" target="_blank">http://localhost/auth</a>
+* Movie API : <a href="http://localhost/api" target="_blank">http://localhost/api</a> 
 
 To validate the API implementation just execute the following commands. Do this when the two servers are running.
 
